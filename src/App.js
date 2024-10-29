@@ -1,16 +1,18 @@
-// src/App.js
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import NoteList from './components/NotesList';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NoteList from './components/NoteList';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Notes Application</h1>
-        <NoteList />
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<NoteList />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 }
 

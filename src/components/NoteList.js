@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function NoteList() {
   const [notes, setNotes] = useState([]);
@@ -8,12 +9,18 @@ function NoteList() {
   const [size, setSize] = useState(10);
   const [sort, setSort] = useState('createdAt');
   const [direction, setDirection] = useState('asc');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchNotes();
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    } else {
+      fetchNotes(token);
+    }
   }, [page, size, sort, direction]);
 
-  const fetchNotes = async () => {
+  const fetchNotes = async (token) => {
     setLoading(true);
     setError(null);
     try {
@@ -21,13 +28,13 @@ function NoteList() {
         `http://localhost:8082/notes?page=${page}&size=${size}&sort=${sort}&direction=${direction}`,
         {
           headers: {
-            Authorization: `Bearer YOUR_TOKEN_HERE`, // Replace with actual token
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       if (!response.ok) throw new Error('Failed to fetch notes');
       const data = await response.json();
-      setNotes(data.content); // assumes API sends paginated notes as `content`
+      setNotes(data.content);
     } catch (err) {
       setError(err.message);
     }
