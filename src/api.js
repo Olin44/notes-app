@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL of the Notes API
-const API_BASE_URL = 'http://localhost:8080';  // adjust if needed
+const API_BASE_URL = 'http://localhost:8080/api/v1/';  // adjust if needed
 
 // Set the authorization token
 const getAuthHeaders = () => ({
